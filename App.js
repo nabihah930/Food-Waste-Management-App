@@ -1,4 +1,4 @@
-import { createAppContainer } from 'react-navigation';      //, createSwitchNavigator
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';      //, createSwitchNavigator
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { StyleSheet, Text, View } from 'react-native';
@@ -20,6 +20,7 @@ import ChatList from './src/screens/ChatList';
 import ViewChat from  './src/screens/ViewChat';
 import tester from './src/screens/tester';
 
+
 // export default function App() {
 //   return (
 //     <View style={styles.container}>
@@ -29,7 +30,7 @@ import tester from './src/screens/tester';
 //   );
 // }
 
-const switchNavigator = createStackNavigator({
+const switchNavigator = createSwitchNavigator({
   authFlow: createStackNavigator({
     Initial: onBoardingPage,
     Signup: SignUp,
@@ -71,7 +72,7 @@ const navigator = createStackNavigator({
   SeeChat: ViewChat,
   Trial: tester
 }, {
-  initialRouteName: "SeeChat",
+  initialRouteName: "Signup",
   defaultNavigationOptions: {
     title: "Thali"
   }
