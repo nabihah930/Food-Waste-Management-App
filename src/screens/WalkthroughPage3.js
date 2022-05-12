@@ -18,7 +18,7 @@ const WalkthroughAnalytics = ({ navigation }) => {
         <Text style={styles.textBody}>Chech out our cool and easy graphs to know just how much food you saved and people you helped.</Text>
       </View>
       <View style={styles.spaceBody} />
-      <Button mt="5" borderRadius="full" colorScheme="secondary" style={{width: '85%', height: '7%'}} onPress={() => navigation.navigate('mainFlow')} >
+      <Button mt="5" borderRadius="full" colorScheme="secondary" style={{width: '85%', height: '7%'}} onPress={() => navigation.navigate('Profile')} >
       {/* ,{id: userId} */}
         Get Started
       </Button>

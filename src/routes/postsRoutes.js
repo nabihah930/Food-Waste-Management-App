@@ -2,6 +2,8 @@
 // import { getPostDetails, getCurrentDate } from '../components/postFunctions';
 // const getPostDetails = require('../components/postFunctions/getPostDetails');
 // const getCurrentDate = require('../components/postFunctions/getCurrentDate');
+
+// import { getCurrentDate } from "../components/postFunctions";
 const express = require('express');
 const mongoose = require('mongoose');
 const authorize = require('../middleware/requireAuth');

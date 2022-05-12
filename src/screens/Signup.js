@@ -1,23 +1,39 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { StyleSheet, View, Image } from "react-native"
-import { ScrollView, Box, Heading, VStack, FormControl, Input, Button, Center, NativeBaseProvider, Icon, Divider, Text, HStack, Link } from "native-base";
+import { IconButton, Alert, ScrollView, Box, Heading, VStack, FormControl, Input, Button, Center, NativeBaseProvider, Icon, Divider, Text, HStack, Link } from "native-base";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-// import thaliAPI from "../api/thali";
+import { Context as AuthContext } from "../context/authContext";
 
 const SignUp = ({ navigation }) => {
-  // This is used for the password visibility <input value={firstName}   name="firstName" onChange={e => setFirstName(e.target.value)} />
+  // This is used for the password visibility
   const [show, setShow] = React.useState(false);
-//   const newUser = { userID:"", name:"", email:"", password:"", phoneNumber:"", address: "" };
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-// onPress={() =>navigation.navigate('Signin')}
+  //Taking input to register a new user
+  const { state, signup } = useContext(AuthContext);        //de-structure out state obj. & signup action
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const phoneNumber = address = '';
+  const userID = navigation.getParam('userID');
+  // console.log(state);
+  
   return (
     <NativeBaseProvider>
       <View style={styles.background}>
+        {state.errorMsg ? (
+        <Alert mt={5} w="63%" status="error" alignSelf="center">
+          <HStack>
+          <Icon mr={2} as={MaterialIcons} size="5" name="error" color="error.700" />
+          <Text color="coolGray.600" bold >Oops, something went wrong</Text>
+          {/* <IconButton icon={<Icon as={Entypo} name="cross" />} _icon={{ color: "coolGray.700", size: "sm" }} /> */}
+          {/* <IconButton variant="unstyled" icon={<CloseIcon size="3" color="coolGray.600" />} /> */}
+          </HStack>
+          <Text fontSize="xs" pl={8} color="coolGray.600" >{state.errorMsg}</Text>
+        </Alert>
+        ) : null}
         <ScrollView>
         <Center>
+          <View style={{ height:30 }} />
           <Image style={{width: 290, height: 160}} source={require('../../images/SignUp_Image.png')} />
         </Center>
         <Center>
@@ -29,18 +45,22 @@ const SignUp = ({ navigation }) => {
               <Heading mt="1" color="coolGray.500" fontWeight="medium" size="md">
                 Sign up to continue!
               </Heading>
+              { (name=='' || email=='' || password=='') ? (
+              <Text fontSize="xs" color="danger.500" >
+                *All fields must be filled
+              </Text>) : null}
               <FormControl>
-                <Input name="name" size="md" variant="outline" placeholder="Full Name" InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="2" color="muted.400" />} />
+                <Input name="name" size="md" variant="outline" placeholder="Full Name" InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="2" color="muted.400" />} value={name} onChangeText={setName} />
               </FormControl>
               <FormControl>
-                <Input name="email" size="md" variant="outline" placeholder="Email ID" InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />} />
+                <Input name="email" size="md" variant="outline" placeholder="Email ID" InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />} value={email} onChangeText={setEmail} />
               </FormControl>
               <FormControl>
-                <Input name="password" size="md" variant="outline" placeholder="Password" type={show ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} ml="2" color="muted.400" onPress={() => setShow(!show)} />} />
+                <Input name="password" size="md" variant="outline" placeholder="Password" type={show ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} ml="2" color="muted.400" onPress={() => setShow(!show)} />} value={password} onChangeText={setPassword} />
               </FormControl>
             </VStack>
-            <Button height="10" mt="12" mb="2" colorScheme="secondary" onPress={()=> navigation.navigate('tutorialFlow')} >
-            {/* onPress={registerUser} */}
+            <Button height="10" mt="12" mb="2" colorScheme="secondary" onPress={() => signup({ userID, name, email, password, phoneNumber, address })} >
+            {/* onPress={registerUser} onPress={()=> navigation.navigate('tutorialFlow')} */}
                 Sign up
             </Button>
             {/* This is for the line between the 2 buttons */}
@@ -81,6 +101,10 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: 'white'
   },
+  error: {
+    fontSize: 5,
+    fontWeight: 'normal',
+  }
 });
     
 export default SignUp;

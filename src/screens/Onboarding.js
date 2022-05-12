@@ -3,43 +3,18 @@ import { StyleSheet, View, ImageBackground } from "react-native";
 import { ScrollView, Heading, Link, Button, Modal, Pressable, Text, Box, HStack, Center, NativeBaseProvider, VStack, Image, Spacer } from "native-base";
 import { useState } from "react";
 
-function createUserID(userType){
-    let userID = '';
-    const paramObject = {};
-    //Create new user's ID based on user type: 1->Person Donor, 2->Eatery Donor, 3->Recipient, and 4->NGO
-    if(userType===1){
-        userID = 'PDN001';
-        //query mongo to find max ID and and inc. by 1 to get the num part of the ID
-    }
-    else if(userType===2){
-        userID = 'EDN001';
-    }
-    else if(userType===3){
-        userID = 'PRP001';
-    }
-    else if(userType===4){
-        userID = 'NGO001';
-    }
-    else{
-        console.log("Some error occured while creating user's ID");
-    }
-    paramObject.id = userID;
-    return paramObject;
-};
-
 const onBoardingPage = ({ navigation }) => {
     const [showModal, setShowModal] = useState(false);
-    // onPress={() =>props.navigation.navigate('Signin')
     return (
         <NativeBaseProvider>
         <ScrollView>
-        <ImageBackground source={require('../../images/background/Background2.png')} style={{width: '100%', height: '100%', justifyContent: 'center', resizeMode: 'cover'}}>
-            <View style={styles.container}>
+        <ImageBackground source={require('../../images/background/Background3.png')} style={{width: '100%', height: '100%', justifyContent: 'center', resizeMode: 'cover'}}>
+        <View style={styles.container}>
                 
                 <View style={styles.spaceHeading} />
-                <Heading style={styles.textHeading} size="4xl">Thali</Heading>
+                {/* <Heading style={styles.textHeading} size="4xl">Thali</Heading> */}
                 <View style={styles.spaceBody} />
-                <Button mt="5" variant="subtle" borderRadius="full" colorScheme="orange" style={{width: '85%', height: '7%'}} onPress={() => setShowModal(true)}>
+                <Button mt="5" variant="subtle" borderRadius="full" colorScheme="pink" _pressed={{bg: "white"}} style={{width: '85%', height: '7%'}} onPress={() => setShowModal(true)}>
                     <Text style={{fontSize: 20, color: "crimson", fontWeight: "bold"}}>Sign up</Text>
                 </Button>
                 <View style={styles.spaceBtFooter} />
@@ -59,6 +34,7 @@ const onBoardingPage = ({ navigation }) => {
                     Sign in
                     </Link>
                 </HStack>
+                <View style={{ height: 55 }} />
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                     <Modal.Content maxWidth="400px">
                         <Modal.CloseButton />
@@ -68,8 +44,7 @@ const onBoardingPage = ({ navigation }) => {
                             <Box alignItems="center">
                             <VStack alignItems="center">
                                 <HStack alignItems="center">
-                                    <Pressable onPress={() => console.log("Person Donor Pressed")}>
-                                    {/* <Pressable onPress={() => props.navigation.navigate('Signup', createUserID(1))}> */}
+                                    <Pressable onPress={() => navigation.navigate('Signup', { userID: 'PDN'})}>
                                         <Box height="24" width="32" borderWidth="1" borderColor="coolGray.300" shadow="3" bg="coolGray.100" p="5" rounded="8">
                                         <VStack alignItems="center">
                                         <Image size={50} resizeMode={"contain"} borderRadius={100} source={require('../../images/icons/PersonIcon.png')} alt="Donor Person Icon" />
@@ -80,8 +55,7 @@ const onBoardingPage = ({ navigation }) => {
                                         </Box>
                                     </Pressable>
                                     <View style={memberGridstyles.ColSpace}/>
-                                    <Pressable onPress={() => console.log("Eatery Donor Pressed")}>
-                                    {/* <Pressable onPress={() => props.navigation.navigate('Signup', createUserID(2))}> */}
+                                    <Pressable onPress={() => navigation.navigate('Signup', { userID: 'EDN'})}>
                                         <Box height="24" width="32" borderWidth="1" borderColor="coolGray.300" shadow="3" bg="coolGray.100" p="5" rounded="8">
                                         <VStack alignItems="center">
                                         <Image size={50} resizeMode={"contain"} borderRadius={100} source={require('../../images/icons/EateryIcon.png')} alt="Donor Eatery Icon" />
@@ -94,8 +68,7 @@ const onBoardingPage = ({ navigation }) => {
                                 </HStack>
                                 <View style={memberGridstyles.RowSpace}/>
                                 <HStack alignItems="center">
-                                    <Pressable onPress={() => console.log("Recipient Pressed")}>
-                                    {/* <Pressable onPress={() => props.navigation.navigate('Signup', createUserID(3))}> */}
+                                    <Pressable onPress={() => navigation.navigate('Signup', { userID: 'PRP'})}>
                                         <Box height="24" width="32" borderWidth="1" borderColor="coolGray.300" shadow="3" bg="coolGray.100" p="5" rounded="8">
                                         <VStack alignItems="center">
                                         <Image size={50} resizeMode={"contain"} borderRadius={100} source={require('../../images/icons/RecipientIcon.png')} alt="Recipient Icon" />
@@ -106,8 +79,7 @@ const onBoardingPage = ({ navigation }) => {
                                         </Box>
                                     </Pressable>
                                     <View style={memberGridstyles.ColSpace} />
-                                    <Pressable onPress={() => console.log("NGO Pressed")}>
-                                    {/* <Pressable onPress={() => props.navigation.navigate('Signup', createUserID(4))}> */}
+                                    <Pressable onPress={() => navigation.navigate('Signup', { userID: 'NGO'})}>
                                         <Box height="24" width="32" borderWidth="1" borderColor="coolGray.300" shadow="3" bg="coolGray.100" p="5" rounded="8">
                                         <VStack alignItems="center">
                                         <Image size={50} resizeMode={"contain"} borderRadius={100} source={require('../../images/icons/NGOIcon.png')} alt="NGO Icon" />
@@ -145,17 +117,19 @@ const styles = StyleSheet.create({
     fontSize: 70,
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Roboto',                               //Good Fonts(from best to worst): Futura, Arial Rounded MT Bold, Gill Sans
+    //fontFamily: 'Roboto',                               //Good Fonts(from best to worst): Futura, Arial Rounded MT Bold, Gill Sans
   },
   container: {
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    height: '100%',
+    
   },
   spaceHeading: {
-    height: 375,
+    height: 495//375,
   },
   spaceBody: {
-    height: 90,
+    height: 175,
   },
   textBodyContainer: {
     paddingLeft: 40,

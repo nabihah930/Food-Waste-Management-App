@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native"
-import { Avatar, Box, Heading, VStack, Button, NativeBaseProvider, Icon, HStack, Link } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Text, Avatar, Box, Heading, VStack, Button, NativeBaseProvider, Icon, HStack, Link } from "native-base";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import displayPic from '../../images/Avatar_Female3.png'
 
 const ProfilePage = (props) => {
@@ -75,7 +75,7 @@ const ProfilePage = (props) => {
           <Heading size="lg" >Contact Information</Heading>
           </HStack>
           <Box borderRadius="xl" p="5" mt="5" bgColor="gray.300">
-            <Pressable onPress={() => console.log("Phone Number Pressed")}>
+            <Pressable _pressed={{bg: "gray.500"}} onPress={() => console.log("Phone Number Pressed")}>
               <HStack>
                 <Heading size="md" fontWeight="normal">Phone Number</Heading>
                 <View style={styles.phoneColSpace} />
@@ -85,7 +85,7 @@ const ProfilePage = (props) => {
             </Pressable>
           </Box>
           <Box borderRadius="xl" p="5" mt="5" bgColor="gray.300">
-            <Pressable onPress={() => console.log("Address Pressed")}>
+            <Pressable _pressed={{bg: "gray.500"}} onPress={() => console.log("Address Pressed")}>
               <HStack>
                 <Heading size="md" fontWeight="normal">Address</Heading>
                 <View style={styles.addressColSpace} />
@@ -93,6 +93,14 @@ const ProfilePage = (props) => {
                 <Icon as={MaterialIcons} name="arrow-forward-ios" size="xs" mt="1" ml="1" color="gray.400" />
               </HStack>
             </Pressable>
+          </Box>
+          <Box>
+            <Button _pressed={{bg: "red.500"}} shadow="5" mt={16} size="lg" borderRadius="full" colorScheme="red" onPress={()=>{console.log("User wants to sign out.");}}>
+              <HStack space={2}>
+                <Icon as={FontAwesome} name="power-off" size="5" mt="1" ml="1" color="dark.900" /> 
+                <Text bold fontSize="lg" color="dark.900">Sign Out</Text>
+              </HStack>
+            </Button>
           </Box>
         </Box>
         </VStack>

@@ -1,4 +1,4 @@
-function getPostDetails(posterID){
+export const getPostDetails = (posterID) => {
     postType = '';
     if(posterID.includes("PDN") || posterID.includes("EDN"))
         postType = 'Donation';
@@ -7,11 +7,11 @@ function getPostDetails(posterID){
     return postType;
 }
 
-function getCurrentDate(){
+export const getCurrentDate = () => {
     const today = new Date();
     const date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
     const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     return date+' '+time;
 }
 
-export default { getPostDetails, getCurrentDate };
+// export default { getPostDetails, getCurrentDate };

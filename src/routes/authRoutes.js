@@ -3,14 +3,26 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Users = mongoose.model('Users');
 const jwt = require('jsonwebtoken');
-
 //Obj. that allows us to associate some num. of route handlers with it
 const router = express.Router();
 
 router.post('/signup', async (req, res)=>{
-    const { userID, name, email, password, phoneNumber, address } = req.body;
+    let { userID, name, email, password, phoneNumber, address } = req.body;
     console.log(req.body);
     try{
+        //Generating new unique ID (user limit: 100)
+        const users = await Users.find({}, 'userID');
+        const userIDs = [];
+        for(let user in users){
+            userIDs.push(users[user].userID);
+        }
+        let newID = userID+String(Math.floor(Math.random() * 100) + 1).padStart(3, '0');
+        // console.log(newID);
+        while(newID in userIDs){
+            newID = userID+String(Math.floor(Math.random() * 100) + 1).padStart(3, '0');
+        }
+        userID = newID;
+        // console.log("I created: ",userID);
         const user = new Users({ userID, name, email, password, phoneNumber, address });
         //This is an async. operation since mongoose has to reach out the mongoDB instance on the internet & initiate the save operation
         await user.save();
@@ -21,6 +33,7 @@ router.post('/signup', async (req, res)=>{
     }
     catch(err){
         const message = err.message
+        //console.log(message);
         //Setting the HTTP status code to 422
         if(message.includes("duplicate key error")){
             res.status(422).send("Username or Email already in use!");    
@@ -29,7 +42,6 @@ router.post('/signup', async (req, res)=>{
             res.status(422).send("Username/Email or Password left blank.");
         }
     }
-    
 });
 
 router.post('/signin', async (req, res)=>{

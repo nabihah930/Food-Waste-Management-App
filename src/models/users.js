@@ -67,5 +67,6 @@ userSchema.methods.checkPassword = function(insertedPassword){
         });
     });
 }
+
 //This line should be exe. only once since you can not re-define the same model again and again
 mongoose.model('Users', userSchema);
